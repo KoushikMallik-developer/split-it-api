@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Welcome to Splitwise Clone!</h2>
+    <p>Choose an action:</p>
+    <ul>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'group-list' %}">Group List</a></li>
+        <li><a href="{% url 'create-group' %}">Create Group</a></li>
+        <li><a href="{% url 'expense-list' %}">Expense List</a></li>
+        <li><a href="{% url 'create-expense' %}">Create Expense</a></li>
+    </ul>
+{% endblock %}
