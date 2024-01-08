@@ -12,18 +12,19 @@
 <!--        <li><a href="{% url 'expense-list' %}">Expense List</a></li>-->
 <!--        <li><a href="{% url 'create-expense' %}">Create Expense</a></li>-->
 <!--    </ul>-->
-<div class="bg-light">
-<div class="container-fluid my-5">
-<div class="row d-flex align-items-center">
-    <div class="col align-items-center">
-    <h2 class="text-center">Let's split the bills not the friendships.</h2>
+
+<div class="bg-light full-page">
+<div class="container-fluid content-container">
+<div class="row align-items-center">
+    <div class="col-md-6 align-items-center">
+    <h1 class="text-center">Let's split the bills not the friendships.</h1>
         <p class="text-center">We organize your bills, so you can chill.</p>
         <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-outline-success">Get Started</button>
+        <a type="button" href="{% url 'login' %}" class="btn btn-outline-success">Get Started</a>
         </div>
 </div>
-    <div class="col">
-    <img src="{% static '/images/brands/brand-big.png' %}" alt="my_logo" width="450" height="450" class="d-inline-block align-text-top">
+    <div class="col-md-6">
+    <img src="{% static '/images/brands/brand-big.png' %}" alt="my_logo" class="responsive-img">
 </div>
 </div>
     </div>
