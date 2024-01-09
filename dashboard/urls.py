@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import group_list, group_detail, add_user_to_group, create_group
+from .views import (
+    group_list,
+    group_detail,
+    add_user_to_group,
+    create_group,
+    user_dashboard,
+)
 
 urlpatterns = [
     path("groups/", group_list, name="group-list"),
@@ -8,4 +14,5 @@ urlpatterns = [
         "groups/<int:group_id>/add-user/", add_user_to_group, name="add-user-to-group"
     ),
     path("create-group/", create_group, name="create-group"),
+    path("dashboard/", user_dashboard, name="dashboard"),
 ]

@@ -1,6 +1,6 @@
-from typing import Optional
-
 from pydantic import BaseModel
+
+from users.types.base_response_type import BaseResponseType
 
 
 class RegistrationRequestType(BaseModel):
@@ -12,13 +12,5 @@ class RegistrationRequestType(BaseModel):
     password2: str
 
 
-class RegistrationResponseType(BaseModel):
-    successMessage: Optional[str] = None
-    errorMessage: Optional[str] = None
-
-    def __init__(self, **kwargs):
-        if kwargs.get("errorMessage"):
-            kwargs["errorMessage"] = (
-                str(kwargs.get("errorMessage")).split(":")[1].strip()
-            )
-        super().__init__(**kwargs)
+class RegistrationResponseType(BaseResponseType):
+    pass

@@ -31,3 +31,16 @@ def create_group(request):
     else:
         form = GroupForm()
     return render(request, "dashboard/create_group.html", {"form": form})
+
+
+def user_dashboard(request):
+    if request.method == "GET":
+        if request.session.get("is_logged_in"):
+            return render(
+                request,
+                "dashboard/dashboard.html",
+                context={"is_logged_in": request.session.get("is_logged_in")},
+            )
+        else:
+            request.session["is_logged_in"] = False
+            return redirect("/login")

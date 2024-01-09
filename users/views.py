@@ -1,14 +1,26 @@
 from django.shortcuts import render, redirect
 
 from .login_form import LoginForm
-from .registration_form import RegistrationForm, VerifyEmailForm
+from .registration_form import RegistrationForm, VerifyEmailForm, ResendOTPService
+from .types.resend_otp_types import ResendOTPRequestType
 
 
 def user_login(request):
     if request.method == "POST":
         form = LoginForm(**request.POST.dict())
         response_data = form.authenticate(request=request)
+        if (
+            response_data.errorName
+            and "UserNotVerifiedError" in response_data.errorName
+        ):
+            request.session["email"] = form.email
+            return render(
+                request,
+                "users/email_verification.html",
+                context=response_data.model_dump(),
+            )
         if request.session.get("is_logged_in"):
+            # TODO: Need to redirect to dashboard page here
             return redirect("/")
         else:
             return render(
@@ -19,8 +31,10 @@ def user_login(request):
 
 
 def user_logout(request):
-    # logout(request)
-    return redirect("login")
+    del request.session["is_logged_in"]
+    del request.session["access_token"]
+    del request.session["refresh_token"]
+    return redirect("/")
 
 
 def user_register(request):
@@ -29,6 +43,7 @@ def user_register(request):
         form.username = form.fname.lower()
         response_data = form.register(request)
         if response_data.successMessage:
+            request.session["email"] = form.email
             return render(
                 request,
                 "users/email_verification.html",
@@ -56,12 +71,12 @@ def verify_email(request):
         form = VerifyEmailForm(
             email=request.session.get("email"), otp=request.POST.get("otp")
         )
-        del request.session["email"]
         response_data = form.verify(request)
         if response_data.token:
             request.session["is_logged_in"] = True
             request.session["access_token"] = response_data.token.get("access")
             request.session["refresh_token"] = response_data.token.get("refresh")
+            del request.session["email"]
             return redirect("/")
         else:
             request.session["is_logged_in"] = False
@@ -70,3 +85,13 @@ def verify_email(request):
                 "users/email_verification.html",
                 context=response_data.model_dump(),
             )
+
+
+def resend_otp(request):
+    if request.method == "GET":
+        response_data = ResendOTPService.send(request=request)
+        return render(
+            request,
+            "users/email_verification.html",
+            context=response_data.model_dump(),
+        )

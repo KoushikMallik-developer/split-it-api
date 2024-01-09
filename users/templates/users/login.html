@@ -13,16 +13,26 @@
                     <h2 class="text-center">Login</h2>
                     <h6>Experience the freedom of collaborative expense management.</h6>
                 </div>
+                {% if errorMessage %}
+                <div class="alert alert-danger" role="alert">
+                    {{ errorMessage }}
+                </div>
+                {% endif %}
+                {% if successMessage %}
+                <div class="alert alert-success" role="alert">
+                    {{ successMessage }}
+                </div>
+                {% endif %}
                 <form method="post">
                     {% csrf_token %}
                     <div class="form-group my-2">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter your Email" required>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email" required>
                     </div>
 
                     <div class="form-group my-2">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password"
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"
                                required>
                     </div>
                     <div class="text-center">
