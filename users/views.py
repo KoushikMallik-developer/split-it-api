@@ -20,8 +20,7 @@ def user_login(request):
                 context=response_data.model_dump(),
             )
         if request.session.get("is_logged_in"):
-            # TODO: Need to redirect to dashboard page here
-            return redirect("/")
+            return redirect("/dashboard")
         else:
             return render(
                 request, "users/login.html", context=response_data.model_dump()
@@ -77,7 +76,7 @@ def verify_email(request):
             request.session["access_token"] = response_data.token.get("access")
             request.session["refresh_token"] = response_data.token.get("refresh")
             del request.session["email"]
-            return redirect("/")
+            return redirect("/dashboard")
         else:
             request.session["is_logged_in"] = False
             return render(
