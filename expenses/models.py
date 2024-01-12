@@ -1,5 +1,5 @@
 from django.db import models
-from dashboard.models import Group
+from dashboard.models import ExpenseGroup
 
 
 class Expense(models.Model):
@@ -8,7 +8,7 @@ class Expense(models.Model):
     date = models.DateField()
     user_paid = models.CharField(max_length=2000)
     participants = models.CharField(max_length=20000, null=True)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    group = models.ForeignKey(ExpenseGroup, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.description

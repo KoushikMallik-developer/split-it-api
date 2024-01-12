@@ -5,6 +5,7 @@ from .views import (
     add_user_to_group,
     create_group,
     user_dashboard,
+    delete_group,
 )
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     ),
     path("create-group/", create_group, name="create-group"),
     path("dashboard/", user_dashboard, name="dashboard"),
+    path("delete-group/<str:id>/", delete_group, name="delete-group"),
 ]

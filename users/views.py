@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
+from .forms import UserDetails
 from .login_form import LoginForm
 from .registration_form import RegistrationForm, VerifyEmailForm, ResendOTPService
-from .types.resend_otp_types import ResendOTPRequestType
 
 
 def user_login(request):
@@ -33,6 +33,7 @@ def user_logout(request):
     del request.session["is_logged_in"]
     del request.session["access_token"]
     del request.session["refresh_token"]
+    del request.session["user_details"]
     return redirect("/")
 
 
@@ -59,8 +60,8 @@ def user_register(request):
 def user_profile(request):
     if request.method == "GET":
         if request.session.get("is_logged_in") and request.session.get("access_token"):
-            # TODO: NEED TO FETCH PROFILE DETAILS
-            return render(request, "users/profile.html")
+            context = UserDetails(request).fetch().model_dump()
+            return render(request, "users/profile.html", context=context)
         else:
             return redirect("/login")
 

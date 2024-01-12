@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container my-4">
-    <div class="mt-3">
+<div class="container my-2">
+    <div class="">
         <div class="row justify-content-center">
             <div class="text-center mb-4">
                 <h2 class="text-center">Dashboard</h2>
-                <h6>Experience the freedom of collaborative expense management.</h6>
             </div>
             {% if errorMessage %}
             <div class="alert alert-danger" role="alert">
@@ -25,103 +24,26 @@
                          class="d-inline-block align-text-top">
                     <h6>Koushik Mallik</h6>
                     <div class="list-group">
-                        <button type="button" class="list-group-item list-group-item-action">Your Groups</button>
-                        <button type="button" class="list-group-item list-group-item-action">All Expenses</button>
-                        <button type="button" class="list-group-item list-group-item-action">My Expenses</button>
-                        <button type="button" class="list-group-item list-group-item-action">Previous Month Records
-                        </button>
-                        <button type="button" class="list-group-item list-group-item-action">Update Details</button>
-                        <button type="button" class="list-group-item list-group-item-action">Update Password</button>
+                        <a href="/dashboard" type="button" class="list-group-item list-group-item-action border border-0 bg-light">Dashboard</a>
+                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">All Expenses</a>
+                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">My Expenses</a>
+                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Previous Month Records
+                        </a>
+                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Update Details</a>
+                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Update Password</a>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h6>Expense List</h6>
-                    <ol class="list-group list-group-numbered">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Subheading</div>
-                                Content for list item
-                            </div>
-                            <span class="badge bg-primary rounded-pill">14</span>
-                        </li>
-                    </ol>
+                    <h6>Your Groups</h6>
+                    <a type="button" href="/create-group" class="btn btn-outline-success my-3">+ New Group</a>
+                    <ul class="list-group">
+                        {% for group in groups %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ group.name }}
+    <a href="/delete-group/id={{group.id}}" class="badge bg-danger rounded-pill">Delete</a>
+  </li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 <div class="col-md-3">
                     First Column

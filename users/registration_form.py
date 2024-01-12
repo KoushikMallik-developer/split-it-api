@@ -1,4 +1,3 @@
-import logging
 from typing import Optional
 
 from pydantic import BaseModel
@@ -37,8 +36,6 @@ class RegistrationForm(BaseModel):
             api_url, data=request_data.model_dump_json(), headers=headers
         )
         response_data = RegistrationResponseType(**response.json())
-        # if response_data.successMessage:
-        #     request.session["is_logged_in"] = True
         return response_data
 
 
