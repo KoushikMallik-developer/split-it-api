@@ -1,18 +1,65 @@
-{% extends 'base.html' %}
+{% extends 'base_dashboard.html' %}
 
 {% block content %}
-    <h2>Group Detail - {{ group.name }}</h2>
-    <p>Members:</p>
+<script>
+<!--function handle_add_user() {-->
+<!--    var first_button = document.getElementById("addNewUserButton");-->
+<!--    first_button.style.display = 'inline-block';-->
+<!--    var parent = document.getElementById("add_new_member_form");-->
+<!--    parent.style.display = 'none';-->
+<!--    // Create a new input element-->
+<!--    }-->
+function handleAddNewUserButton() {
+    var first_button = document.getElementById("addNewUserButton");
+    first_button.style.display = 'none';
+    var parent = document.getElementById("add_new_member_form");
+    // Create a new input element
+    var div = document.createElement("div");
+    div.className = "form-group my-2"
+    var input = document.createElement("input");
+
+    // Set input type to text (you can change it to other types as needed)
+    input.type = "text";
+    input.className = "form-control";
+    input.id = "member";
+    input.name = "member";
+    input.placeholder = "Enter Member's email";
+
+    var btn = document.createElement("button");
+    btn.type = "submit";
+    btn.textContent = "Add Member";
+    btn.className = "badge bg-success";
+<!--    btn.onClick = "handle_add_user()";-->
+
+    // Add the input field to the container
+    div.appendChild(input);
+    div.appendChild(btn);
+    parent.appendChild(div);
+}
+
+
+</script>
+    <h5>{{ name }}</h5>
+<div class="row">
+    <div class="col-md-6">
+        <h6>Total Balance: 0.00</h6>
+        <h6>You Paid: 0.00</h6>
+        <h6>Your Balance: 0.00</h6>
+
+    </div>
+    <div class="col-md-6">
+        <h6>Members:</h6>
     <ul>
-        {% for member in group.members.all %}
-            <li>{{ member.username }}</li>
+        {% for member in members %}
+            <li>{{ member }}</li>
         {% endfor %}
     </ul>
-    <h3>Add User to Group:</h3>
-    <form method="post" action="{% url 'add-user-to-group' group.id %}">
+        <button id="addNewUserButton" onclick="handleAddNewUserButton()" class="badge bg-success">Add New User to Group</button>
+    <form method="post" id="add_new_member_form" action="/add-user-to-group/id={{id}}/">
         {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <button type="submit">Add User</button>
     </form>
+    </div>
+</div>
+
+
 {% endblock %}

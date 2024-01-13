@@ -8,9 +8,12 @@ from dashboard.models import ExpenseGroup
 from users.forms import UserDetails
 
 
-class CreateGroupForm(BaseModel):
+class GroupForm(BaseModel):
     name: Optional[str] = None
     members: Optional[str] = None
+
+    def validate_group_member(self, member_email):
+        return True
 
     def create_group(self, request):
         if request.POST.get("group_name") and request.POST.get("group_name") != "":
@@ -24,8 +27,11 @@ class CreateGroupForm(BaseModel):
             current_key = key + str(count)
             if request.POST.get(current_key):
                 if request.POST.get(current_key) != "":
-                    members.append(request.POST.get(current_key))
-                    count += 1
+                    if self.validate_group_member(request.POST.get(current_key)):
+                        members.append(request.POST.get(current_key))
+                        count += 1
+                    else:
+                        return {"errorMessage": "Group Member is not validated"}
             else:
                 break
         if request.session.get("access_token"):
@@ -52,3 +58,24 @@ class CreateGroupForm(BaseModel):
             return True
         else:
             return False
+
+    def add_user(self, request, group_id):
+        if group_id and ExpenseGroup.objects.filter(id=group_id).exists():
+            group = ExpenseGroup.objects.get(id=group_id)
+            members = json.loads(group.members)
+            if self.validate_group_member(request.POST.get("member")):
+                members.append(request.POST.get("member"))
+                members = json.dumps(members)
+                group.members = members
+                group.save()
+                return {
+                    "successMessage": "Member added to gorup successfully.",
+                }
+            else:
+                return {
+                    "errorMessage": "Member is not a Split It user.",
+                }
+        else:
+            return {
+                "errorMessage": "Group does not exists..",
+            }

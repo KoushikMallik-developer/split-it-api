@@ -3,7 +3,7 @@ from dashboard.models import ExpenseGroup
 
 
 class Expense(models.Model):
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     date = models.DateField()
     user_paid = models.CharField(max_length=2000)

@@ -1,56 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'base_dashboard.html' %}
 {% load static %}
 {% block content %}
-<div class="container my-2">
-    <div class="">
-        <div class="row justify-content-center">
-            <div class="text-center mb-4">
-                <h2 class="text-center">Dashboard</h2>
-            </div>
-            {% if errorMessage %}
-            <div class="alert alert-danger" role="alert">
-                {{ errorMessage }}
-            </div>
-            {% endif %}
-            {% if successMessage %}
-            <div class="alert alert-success" role="alert">
-                {{ successMessage }}
-            </div>
-            {% endif %}
-
-            <div class="row justify-content-center text-center">
-                <div class="col-md-3">
-                    <img src="{% static '/images/user/user_default_image.png' %}" alt="user" width="80" height="60"
-                         class="d-inline-block align-text-top">
-                    <h6>Koushik Mallik</h6>
-                    <div class="list-group">
-                        <a href="/dashboard" type="button" class="list-group-item list-group-item-action border border-0 bg-light">Dashboard</a>
-                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">All Expenses</a>
-                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">My Expenses</a>
-                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Previous Month Records
-                        </a>
-                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Update Details</a>
-                        <a type="button" class="list-group-item list-group-item-action border border-0 bg-light">Update Password</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h6>Your Groups</h6>
-                    <a type="button" href="/create-group" class="btn btn-outline-success my-3">+ New Group</a>
-                    <ul class="list-group">
-                        {% for group in groups %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-    {{ group.name }}
-    <a href="/delete-group/id={{group.id}}" class="badge bg-danger rounded-pill">Delete</a>
-  </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    First Column
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+<h6>Your Groups</h6>
+<a type="button" href="/create-group" class="btn btn-outline-success my-3">+ New Group</a>
+<ul class="list-group">
+    {% for group in groups %}
+    <a href="/groups/id={{group.id}}">
+        <li class="list-group-item d-flex justify-content-between align-items-center my-2">
+            {{ group.name }}
+            <a href="/delete-group/id={{group.id}}" type="button" class="badge bg-danger rounded-pill">Delete</a>
+        </li>
+    </a>
+    {% endfor %}
+</ul>
 {% endblock %}

@@ -1,40 +1,42 @@
 from django.shortcuts import render, redirect
 
 from users.forms import UserDetails
-from .create_group_form import CreateGroupForm
+from .create_group_form import GroupForm
 from .models import ExpenseGroup
+from .utils import GroupUtils
 
 
-def group_list(request):
-    pass
-    # groups = Group.objects.all()
-    # return render(request, "dashboard/group_list.html", {"groups": groups})
+# def group_list(request):
+#     pass
+#     # groups = Group.objects.all()
+#     # return render(request, "dashboard/group_list.html", {"groups": groups})
 
 
 def group_detail(request, group_id):
-    pass
-    # group = get_object_or_404(Group, pk=group_id)
-    # return render(request, "dashboard/group_detail.html", {"group": group})
+    context = {"is_logged_in": request.session.get("is_logged_in")}
+    group = GroupUtils().get_group_details(group_id.split("=")[1])
+    context.update(group.model_dump())
+    return render(request, "dashboard/group_detail.html", context=context)
 
 
-def add_user_to_group(request, group_id):
-    pass
-    # group = get_object_or_404(Group, pk=group_id)
-    # if request.method == "POST":
-    #     username = request.POST.get("username")
-    #     # user = get_object_or_404(User, username=username)  # Use the custom user model
-    #     # group.members.add(user)
-    # return redirect("group-detail", group_id=group_id)
+def add_user_to_group(request, id):
+    if request.method == "POST":
+        context = {"is_logged_in": request.session.get("is_logged_in")}
+        group_id = id.split("=")[1]
+        response_data = GroupForm().add_user(request, group_id)
+        if response_data:
+            context.update(**response_data)
+            group = GroupUtils().get_group_details(group_id)
+            context.update(**group.model_dump())
+            return render(request, "dashboard/group_detail.html", context=context)
 
 
 def create_group(request):
     context = {"is_logged_in": request.session.get("is_logged_in")}
     if request.method == "POST":
-        response = CreateGroupForm().create_group(request)
-        if response.get("errorMessage"):
+        response = GroupForm().create_group(request)
+        if response:
             context.update(**response)
-            return render(request, "dashboard/create_group.html", context=context)
-        else:
             return render(request, "dashboard/create_group.html", context=context)
     else:
         return render(request, "dashboard/create_group.html", context=context)
