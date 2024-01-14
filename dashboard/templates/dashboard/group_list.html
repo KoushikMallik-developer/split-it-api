@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Group List</h2>
+    <ul>
+        {% for group in groups %}
+            <li><a href="{% url 'group-detail' group.id %}">{{ group.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
