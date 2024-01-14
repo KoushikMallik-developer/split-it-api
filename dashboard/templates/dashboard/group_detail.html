@@ -60,6 +60,29 @@ function handleAddNewUserButton() {
     </form>
     </div>
 </div>
-
+    <div>
+    <h6>Expense List</h6>
+    <a type="button" href="/create-expense/id={{ id }}" class="btn btn-outline-success my-3">+ New Expense</a>
+        <div class="list-group">
+  <a href="#" class="list-group-item list-group-item-action my-2" aria-current="true">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Fruits</h5>
+      <span class="badge bg-success my-1">+ 187</span>
+    </div>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action my-2">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">Chicken</h5>
+      <span class="badge bg-danger my-1">- 28</span>
+    </div>
+  </a>
+  <a href="#" class="list-group-item list-group-item-action my-2">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="">Grocery</h5>
+      <span class="badge bg-danger my-1">- 200</span>
+    </div>
+  </a>
+</div>
+    </div>
 
 {% endblock %}
