@@ -1,0 +1,45 @@
+{% extends 'base_dashboard.html' %}
+{% load static %}
+{% block content %}
+<script>
+function addInputField() {
+    var parent = document.getElementById("group_inputs");
+    // Create a new input element
+    var div = document.createElement("div");
+    div.className = "form-group my-2"
+    var input = document.createElement("input");
+
+    // Set input type to text (you can change it to other types as needed)
+    input.type = "text";
+    input.className = "form-control";
+    input.id = "member"+(parent.childElementCount).toString();
+    input.name = "member"+(parent.childElementCount).toString();
+    input.placeholder = "Enter Member's email";
+
+    // Add the input field to the container
+    div.appendChild(input);
+    parent.appendChild(div);
+}
+
+
+</script>
+<h6>Create Groups</h6>
+<form method="post" id="group_form">
+    {% csrf_token %}
+    <div id="group_inputs">
+        <div class="form-group my-2">
+            <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Group Name" required>
+        </div>
+
+        <div class="form-group my-2">
+            <input type="text" class="form-control" id="member1" name="member1" placeholder="Enter member's email"
+                   required>
+        </div>
+    </div>
+    <button onclick="addInputField()" type="button" class="btn btn-outline-success my-3 mb-4">Add More Members</button>
+    <div class="text-center">
+        <button type="submit" class="btn btn-outline-success my-3 mb-4">Add Group</button>
+    </div>
+</form>
+
+{% endblock %}
