@@ -6,15 +6,9 @@ from .models import ExpenseGroup
 from .utils import GroupUtils
 
 
-# def group_list(request):
-#     pass
-#     # groups = Group.objects.all()
-#     # return render(request, "dashboard/group_list.html", {"groups": groups})
-
-
 def group_detail(request, group_id):
     context = {"is_logged_in": request.session.get("is_logged_in")}
-    group = GroupUtils().get_group_details(group_id.split("=")[1])
+    group = GroupUtils().get_group_details(request, group_id.split("=")[1])
     context.update(group.model_dump())
     return render(request, "dashboard/group_detail.html", context=context)
 
@@ -26,7 +20,7 @@ def add_user_to_group(request, id):
         response_data = GroupForm().add_user(request, group_id)
         if response_data:
             context.update(**response_data)
-            group = GroupUtils().get_group_details(group_id)
+            group = GroupUtils().get_group_details(request, group_id)
             context.update(**group.model_dump())
             return render(request, "dashboard/group_detail.html", context=context)
 

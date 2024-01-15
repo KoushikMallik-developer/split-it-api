@@ -13,21 +13,27 @@ class ExpenseForm(BaseModel):
     title: Optional[str] = None
     user_paid: Optional[str] = None
     participants: Optional[str] = None
+    dividing_rule: Optional[str] = None
 
     def __init__(self, **kwargs):
-        participants = []
-        key = "participant"
-        count = 1
-        while True:
-            current_key = key + str(count)
-            if kwargs.get(current_key):
-                if kwargs.get(current_key) != "":
-                    participants.append(kwargs.get(current_key))
-                    count += 1
-            else:
-                break
-        if len(participants) > 0:
-            kwargs["participants"] = json.loads(participants)
+        amount = kwargs.get("amount_paid")
+        if amount:
+            if not isinstance(amount, Decimal):
+                kwargs["amount"] = Decimal(amount)
+
+        participants = kwargs.get("participants")
+        if isinstance(participants, list) and len(participants) > 0:
+            if kwargs.get("dividing_rule") and isinstance(
+                kwargs.get("dividing_rule"), str
+            ):
+                kwargs["dividing_rule"] = str(kwargs.get("dividing_rule")).upper()
+                if kwargs.get("dividing_rule") == "EQUALLY":
+                    participant_count = len(participants)
+                    each_percentage = 100 / participant_count
+                    participants = {
+                        participant: each_percentage for participant in participants
+                    }
+            kwargs["participants"] = json.dumps(participants)
         super().__init__(**kwargs)
 
     def create_expense(self, group_id):

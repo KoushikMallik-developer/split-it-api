@@ -38,51 +38,49 @@ function handleAddNewUserButton() {
 }
 
 
+
+
 </script>
-    <h5>{{ name }}</h5>
+<h5>{{ name }}</h5>
 <div class="row">
     <div class="col-md-6">
-        <h6>Total Balance: 0.00</h6>
-        <h6>You Paid: 0.00</h6>
-        <h6>Your Balance: 0.00</h6>
+        <h6>Total Balance: {{total_balance}}</h6>
+        <h6>You Paid: {{you_paid}}</h6>
+        <h6>Your Balance: {{your_balance}}</h6>
 
     </div>
     <div class="col-md-6">
         <h6>Members:</h6>
-    <ul>
-        {% for member in members %}
+        <ul>
+            {% for member in members %}
             <li>{{ member }}</li>
-        {% endfor %}
-    </ul>
-        <button id="addNewUserButton" onclick="handleAddNewUserButton()" class="badge bg-success">Add New User to Group</button>
-    <form method="post" id="add_new_member_form" action="/add-user-to-group/id={{id}}/">
-        {% csrf_token %}
-    </form>
+            {% endfor %}
+        </ul>
+        <button id="addNewUserButton" onclick="handleAddNewUserButton()" class="badge bg-success">Add New User to
+            Group
+        </button>
+        <form method="post" id="add_new_member_form" action="/add-user-to-group/id={{id}}/">
+            {% csrf_token %}
+        </form>
     </div>
 </div>
-    <div>
+<div>
     <h6>Expense List</h6>
     <a type="button" href="/create-expense/id={{ id }}" class="btn btn-outline-success my-3">+ New Expense</a>
-        <div class="list-group">
-  <a href="#" class="list-group-item list-group-item-action my-2" aria-current="true">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Fruits</h5>
-      <span class="badge bg-success my-1">+ 187</span>
+    <div class="list-group">
+        {% for expense in expenses %}
+        <a href="#" class="list-group-item list-group-item-action my-2" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ expense.title }}</h5>
+                {% if expense.your_balance > 0 %}
+                <span class="badge bg-success my-1">{{expense.your_balance}}</span>
+                {% else %}
+                <span class="badge bg-danger my-1">{{expense.your_balance}}</span>
+                {% endif %}
+            </div>
+        </a>
+        {% endfor %}
     </div>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action my-2">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">Chicken</h5>
-      <span class="badge bg-danger my-1">- 28</span>
-    </div>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action my-2">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="">Grocery</h5>
-      <span class="badge bg-danger my-1">- 200</span>
-    </div>
-  </a>
 </div>
-    </div>
 
 {% endblock %}
